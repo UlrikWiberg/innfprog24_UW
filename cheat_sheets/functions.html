@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functions cheat sheet</title>
+</head>
+<body>
+    <p>Ulrik Wiberg. E-post: <span id="emailcontainer"></span></p>
+
+    <script>
+        //Deklarere en function
+        function myFirstFunction() {
+            console.log("Jeg kjøre min første funksjon :)")
+        }
+        //kjøre (kalle) funksjonen:
+        myFirstFunction()
+
+        //deklarere en funksjon medd parameter
+        function printName(name) {
+            console.log("Jeg heter " + name)
+        }
+        printName("Ulrik")
+
+        //deklarere en funksjon medd parameter som har en standard verdi
+        function printDefaultName(name = "ingenting enda") {
+            console.log("Jeg heter " + name)
+        }
+        printDefaultName()
+
+        //lage en funksjon med e-post som link (template)
+        function createEmailLink(email) {
+            if(!email) {
+                return "Ikke oppgitt"
+            }
+            return `<a href="mailto:${email}">${email}</a>`
+        }
+        console.log(createEmailLink("ulrikw@hiof.no"))
+        document.getElementById("emailcontainer").innerHTML = createEmailLink("ulrikw@hiof.no")
+
+    </script>
+</body>
+</html>
