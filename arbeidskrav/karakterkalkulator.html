@@ -5,16 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>karakterkalkulator</title>
     <style>
-        
+        body { 
+            background-color: #eee;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 2rem;
+            padding: 20px;
+        }
+
+        input {
+            padding: 5px 10px;
+            font-size: 1.5rem;
+        }
+
+        #kalkuler {
+            padding: 10px;
+            font-size: 1.5rem;
+            background-color: white;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-    <h1>Regn ut din karakter</h1>
-    <p id="oppgave1">
+    <h1>Regn ut din karakter:</h1>
+    <p>
         <label for="eksamen1">Eksamensoppgave 1:</label>
         <input id="eksamen1" type="number" min="0" max="10" oninput="checkInputs()">
     </p>
-    <p id="oppgave2">
+    <p>
         <label for="eksamen2">Eksamensoppgave 2:</label>
         <input id="eksamen2" type="number" min="0" max="12" oninput="checkInputs()">
     </p>
@@ -22,6 +39,7 @@
     <p id="karakter"></p>
 
     <script>
+        //Array for hvor mange prosent av mulige poeng som kreves for hver karakter
         const grades = [
             {grade: "F", treshold: 0},
             {grade: "E", treshold: 25},
@@ -31,35 +49,36 @@
             {grade: "A", treshold: 100}
         ]
 
+        //Funksjon som sjekker at input-feltene er fyllt, og gjør knappen funksjonell hvis de er fyllt
         function checkInputs() {
+            const eksamen1 = document.getElementById("eksamen1").value;
+            const eksamen2 = document.getElementById("eksamen2").value;
             kalkuler.disabled = !(eksamen1 && eksamen2);
         }
 
+        //Funksjon som regner ut karakteren basert på hvor mange prosent av poeng
         function gradeCalculator() {
+            //Henter poeng for eksamsoppgavene fra inputfeleten
             const PoengOppgave1 = document.getElementById("eksamen1").value;
             const PoengOppgave2 = document.getElementById("eksamen2").value;
+            //Setter opp maksimalt antall poeng for oppgavene
             const MaksimaltPoengOppgave1 = 10;
             const MaksimaltPoengOppgave2 = 12;
-
-            const gradePercentage = (0.3 * (PoengOppgave1 / MaksimaltPoengOppgave1 * 100)) + 
+            //Setter opp regnestykket funkjsonen skal løse
+            const grade = (0.3 * (PoengOppgave1 / MaksimaltPoengOppgave1 * 100)) + 
                                     (0.7 * (PoengOppgave2 / MaksimaltPoengOppgave2 * 100));
-            
-            let text = "";
 
-            if (gradePercentage < 25) {
-                text = "Du fikk karakter F";
-            } else if (gradePercentage < 44) {
-                text = "Du fikk karakter E";
-            } else if (gradePercentage < 68) {
-                text = "Du fikk karakter D";
-            } else if (gradePercentage < 88) {
-                text = "Du fikk karakter C";
-            } else if (gradePercentage < 100) {
-                text = "Du fikk karakter B";
-            } else {
-                text = "Du fikk karakter A";
+            /*Får funksjonen til å skrive en reslutatsetning utifra prosenten av poeng du fikk
+            på oppgavene med riktig karakter fra tresholdene i arrayen*/
+            let text = "Du fikk karakter F";
+
+            for (let i = grades.length - 1; i >= 0; i--) {
+                if (grade >= grades[i].treshold) {
+                    text = `Du fikk karakter ${grades[i].grade}`;
+                    break;
+                }
             }
-            
+            //Skriver ut resultatsetning til HTML
             document.getElementById("karakter").innerHTML = text;
         }
     </script>
